@@ -2,9 +2,9 @@
 
 # Python 스크립트 실행 권한 설정
 echo "Setting executable permissions for Python scripts..."
-find /home/cwh316/CMU-VLA-Challenge -name "*.py" -type f -exec chmod +x {} \;
-find /home/cwh316/CMU-VLA-Challenge -name "*.cpp" -type f -exec chmod +x {} \;
-find /home/cwh316/CMU-VLA-Challenge -name "*.launch" -type f -exec chmod +x {} \;
+find /home/$USER/CMU-VLA-Challenge -name "*.py" -type f -exec chmod +x {} \;
+find /home/$USER/CMU-VLA-Challenge -name "*.cpp" -type f -exec chmod +x {} \;
+find /home/$USER/CMU-VLA-Challenge -name "*.launch" -type f -exec chmod +x {} \;
 
 sleep 3
 # interaction_manager와 color_scan_generation을 함께 실행
