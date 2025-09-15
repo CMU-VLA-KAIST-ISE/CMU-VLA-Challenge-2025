@@ -90,6 +90,11 @@ Access the first container:
 ```
 docker exec -it ubuntu20_ros_system bash
 ```
+Move to `/system/unity`, and build:
+```
+cd /system/unity
+catkin_make
+```
 Inside the container, run:
 ```
 ./launch_system.sh
