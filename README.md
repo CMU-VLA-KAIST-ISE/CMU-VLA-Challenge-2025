@@ -11,7 +11,7 @@
 
 
 ## Introduction
-This is the final submission repository for [CMU-VLA Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge), by KAIST-ISE team. \
+This is the final submission repository for [CMU-VLA Challenge](https://www.ai-meets-autonomy.com/cmu-vla-challenge), by **KAIST-ISE Team**. \
 Below provides a step-by-step manual for environment setup and code execution.
 
 ## Setting Up
@@ -34,7 +34,7 @@ CMU-VLA-Challenge-2025
 ```
 
 ### Docker Composition
-Please make sure the computer contains *NVIDIA GPUs*
+Please make sure the computer contains **NVIDIA GPUs**.
 #### 1) Install Docker and grant user permission:
 This step is referenced from the [baseline repository](https://github.com/CMU-VLA-KAIST-ISE/CMU-VLA-Challenge-2025/tree/main/docker#2-for-computers-with-nvidia-gpus).
 If your computer has already gone through such a process, please feel free to skip.
@@ -79,6 +79,7 @@ Use the `compose_gpu.yml` file to pull Docker images:
 ```
 docker compose -f compose_gpu.yml up -d 
 ```
+
 ### Simulator
 
 Copy the scene files into the `system/unity/src/vehicle_simulator/mesh/unity` folder. \
@@ -92,12 +93,17 @@ docker exec -it ubuntu20_ros_system bash
 ```
 Move to `/system/unity`, and build:
 ```
-cd /system/unity
+cd system/unity/
 catkin_make
 ```
 Inside the container, run:
 ```
 ./launch_system.sh
+```
+
+_※ If Unity Simulator doesn't show up, try adding execution permission to the `Model.x86_64` file, and restart `./launch_system.sh`:_
+```
+chmod +x ./system/unity/src/vehicle_simulator/mesh/unity/environment/Model.x86_64
 ```
 #### 2) `ubuntu20_ros` container
 Open a new terminal, and access the second container:
@@ -106,20 +112,16 @@ docker exec -it ubuntu20_ros bash
 ```
 Go inside the `ai_module/` folder, and compile:
 ```
+cd ai_module/
 catkin_make
 ```
 Once the compilation is done, run the development setup:
 ```
 source devel/setup.bash
 ```
-Finally, run the shell script below and enter questions.
+Finally, move to the `CMU-VLA-Challenge-2025`, run the shell script below and enter questions.
 ```
 ./launch_module.sh
-```
-
-_※ If Unity Simulator doesn't show up, try adding execution permission to the `Model.x86_64` file, and restart `./launch_system.sh` :_
-```
-chmod +x ./system/unity/src/vehicle_simulator/mesh/unity/environment/Model.x86_64
 ```
 
 
