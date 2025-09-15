@@ -10,7 +10,7 @@ services:
     privileged: true
     stdin_open: true
     tty: true
-    working_dir: /home/$USER/CMU-VLA-Challenge
+    working_dir: /home/$USER/CMU-VLA-Challenge-2025
     devices:
       - /dev/dxg
     # user: "${UID}:${GID}"
@@ -35,7 +35,7 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /dev/input:/dev/input
       - /dev/bus/usb:/dev/bus/usb:rw
-      - /home/$USER/CMU-VLA-Challenge:/home/$USER/CMU-VLA-Challenge:rw
+      - /home/$USER/CMU-VLA-Challenge-2025:/home/$USER/CMU-VLA-Challenge-2025:rw
       - /data1:/data1
   ubuntu20_ros:
     #build:
@@ -47,7 +47,7 @@ services:
     privileged: true
     stdin_open: true
     tty: true
-    working_dir: /home/$USER/CMU-VLA-Challenge
+    working_dir: /home/$USER/CMU-VLA-Challenge-2025
     devices:
       - /dev/dxg
     # user: "${UID}:${GID}"
@@ -73,4 +73,4 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - /dev/input:/dev/input
       - /dev/bus/usb:/dev/bus/usb:rw
-      - /home/$USER/CMU-VLA-Challenge:/home/$USER/CMU-VLA-Challenge:rw
+      - /home/$USER/CMU-VLA-Challenge-2025:/home/$USER/CMU-VLA-Challenge-2025:rw
