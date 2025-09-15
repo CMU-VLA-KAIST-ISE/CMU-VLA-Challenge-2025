@@ -35,7 +35,7 @@ class GridNodePublisher:
         self.a_node_pub = rospy.Publisher("/a_node_list", PointCloud2, queue_size=1)
         self.edge_pub = rospy.Publisher("/edge_list", Int32MultiArray, queue_size=1)
 # ===============================================================================================================
-        self.grid_map_info_pub = rospy.Publisher("/grid_map_info", OccupancyGrid, queue_size=1)
+        self.grid_map_info_pub = rospy.Publisher("/grid_map_info", OccupancyGrid, queue_size=1, latch=True)
 # ===============================================================================================================
 
         # --- 적응형 파라미터 ---
