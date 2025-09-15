@@ -272,13 +272,15 @@ class A_star():
         """
         Publishes a command for the robot to move to the given target waypoint.
         """
-        dx = target_waypoint[0] - current_position[0]
-        dy = target_waypoint[1] - current_position[1]
+        ttw = [np.round(target_waypoint[0],5), np.round(target_waypoint[1],5)]
+        tcp = [np.round(current_position[0],5), np.round(current_position[1],5)]
+        dx = ttw[0] - tcp[0]
+        dy = ttw[1] - tcp[1]
         yaw = np.arctan2(dy, dx)
 
         pose2d = Pose2D()
-        pose2d.x = target_waypoint[0]
-        pose2d.y = target_waypoint[1]
+        pose2d.x = ttw[0]
+        pose2d.y = ttw[1]
         pose2d.theta = yaw
 
         self.pose_pub.publish(pose2d)
@@ -299,9 +301,12 @@ class A_star():
             grid_coords = self.world_to_grid(point)
             if grid_coords:
                 row, col = grid_coords
+                if self.grid_map[row][col] >= 1: # 1이 벽
+                    continue
+                self.grid_map[row][col] = 1 
                 components = _find_connected_components(self.grid_map)
-                if self.grid_map[row][col] < 1 and len(components) <= 1: # 1이 벽
-                    self.grid_map[row][col] = 1 
+                if len(components) > 1: # 연결되지 못한 경우
+                    self.grid_map[row][col] = 0 
 
     def reset_map(self):
         """
