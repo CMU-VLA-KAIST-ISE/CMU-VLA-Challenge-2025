@@ -1,0 +1,4 @@
+<launch>
+  <node name="plan_task_3" pkg="interaction_manager" type="plan_task_3.py" output="screen">
+  <env name="OPENAI_API_KEY" value="$(env OPENAI_API_KEY)"/>  </node>
+</launch> 

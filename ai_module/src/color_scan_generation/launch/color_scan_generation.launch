@@ -1,0 +1,9 @@
+<launch>
+
+  <arg name="cameraOffsetZ" default="0"/>
+
+  <node pkg="color_scan_generation" type="colorScanGeneration" name="colorScanGeneration" output="screen" required="true">
+    <param name="cameraOffsetZ" value="$(arg cameraOffsetZ)" />
+  </node>
+
+</launch>

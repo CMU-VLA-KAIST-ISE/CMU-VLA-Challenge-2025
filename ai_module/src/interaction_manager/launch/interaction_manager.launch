@@ -1,0 +1,7 @@
+<launch>
+  <!-- Interaction Manager Node -->
+  <node name="interaction_manager" pkg="interaction_manager" type="interaction_manager.py" output="screen">
+  </node>
+  <node name="planning" pkg="interaction_manager" type="launch_pipeline.py" output="screen">
+  </node>
+</launch> 

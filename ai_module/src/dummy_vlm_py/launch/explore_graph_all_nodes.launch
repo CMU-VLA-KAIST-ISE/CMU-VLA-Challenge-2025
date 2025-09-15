@@ -1,0 +1,78 @@
+<launch>
+  <!-- args -->
+  <arg name="graph_file"   default="/tmp/graph_data.json"/>
+  <arg name="save_dir"     default="/home/kwakjs/CMU-VLA-Challenge/collected_data_cs"/>
+  <arg name="random_start" default="false"/>
+  <arg name="scene_name"   default=""/>
+  <arg name="run_tag"      default=""/>
+  <arg name="use_timestamp" default="true"/>
+
+  <!-- 
+  ler params (동일) -->
+  <rosparam command="load">
+    pathFollower:
+      dirDiffThre: 0.35
+      lookAheadDis: 0.7
+      stopDisThre: 0.1
+      noRotAtStop: true
+      noRotAtGoal: true
+      stopYawRateGain: 1.5
+      yawRateGain: 2.0
+    waypointConverter:
+      checkTravArea: true
+      waypointProjDis: 0.8
+      waypointXYRadius: 0.30
+      travDisThre: 0.25
+      searchDisThre: 4.0
+      adjDisThre: 7.0
+      extDis: 0.3
+    localPlanner:
+      checkObstacle: true
+  </rosparam>
+
+  <!-- builder -->
+  <node name="graph_builder" pkg="dummy_vlm_py" type="graph_builder_node.py" output="screen">
+    <param name="graph_file"       value="$(arg graph_file)"/>
+    <param name="inflation_radius" value="0.38"/>
+    <!-- edge band -->
+    <param name="edge_clear_min"   value="0.15"/>
+    <param name="edge_clear_max"   value="0.8"/>   <!-- 필요시 1.2까지 -->
+    <param name="target_stride_m"  value="0.5"/>   <!-- 더 빽빽하게 하려면 0.25 -->
+    <!-- skeleton / interior -->
+    <param name="skeleton_clear_min" value="0.60"/>
+    <param name="skeleton_stride_m"  value="0.50"/>
+    <param name="interior_clear_min" value="0.40"/>
+    <param name="interior_stride_m"  value="0.90"/>
+    <param name="min_points_threshold" value="1"/>
+    <param name="relax_if_sparse"      value="true"/>
+  </node>
+
+  <!-- explorer (delay) -->
+  <node name="graph_explorer" pkg="dummy_vlm_py" type="explore_graph_all_nodes.py"
+        output="screen" required="true"
+        launch-prefix="bash -lc 'sleep 12; exec $0 $@'">
+    <param name="graph_file"   value="$(arg graph_file)"/>
+    <param name="save_dir"     value="$(arg save_dir)"/>
+    <param name="random_start" value="$(arg random_start)"/>
+    <param name="scene_name"   value="$(arg scene_name)"/>
+    <param name="run_tag"      value="$(arg run_tag)"/>
+    <param name="use_timestamp" value="$(arg use_timestamp)"/>
+    <param name="target_frame" value="map"/>
+
+    <!-- 탐색 플랜/예산: 여기만 바꿔도 탐색량 즉시 조절 -->
+    <param name="explore_plan"       value="edge"/>   <!-- 필요하면 interior 추가 -->
+    <param name="target_min_gap_m"   value="1.2"/>             <!-- 과하면 0.7~0.8 -->
+    <param name="order_policy"       value="boustrophedon"/>   <!-- 또는 nn -->
+    <param name="order_cell_m"       value="2.0"/>             <!-- 줄 간격; 1.0~1.5 추천 -->
+    <param name="visit_policy"       value="ordered"/>         <!-- 스윕 순서대로 이동 -->
+    <param name="budget_max_targets" value="800"/>            <!-- 상한 (0=무제한) -->
+
+    <!-- navigation tuning -->
+    <param name="min_wp_spacing"    value="0.35"/>
+    <param name="min_start_wp_dist" value="0.3"/>
+    <param name="reach_dist"        value="0.5"/>
+    <param name="carrot_min"        value="0.8"/>
+    <param name="carrot_max"        value="1.6"/>
+    <param name="wait_graph_timeout" value="90.0"/>
+  </node>
+</launch>

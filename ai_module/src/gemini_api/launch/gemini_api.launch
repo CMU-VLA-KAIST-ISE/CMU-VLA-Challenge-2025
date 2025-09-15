@@ -1,0 +1,35 @@
+<launch>
+  <!-- Args -->
+  <arg name="gemini_api_key" default="$(env GEMINI_API_KEY)" />
+  <arg name="conda_env_prefix" default="/opt/conda/envs/python310" />
+  <arg name="image_topic" default="/partial_sg_generator/current_image" />
+  <arg name="sg_topic"    default="/partial_sg_generator/partial_scene_graph" />
+  <arg name="inference_mode" default="1" />
+  <arg name="model_name" default="gemini-2.5-flash" />
+  <arg name="temperature" default="0.1" />
+  <arg name="max_output_tokens" default="128" />
+
+  <node pkg="gemini_api"
+        type="object_selector_gemini.py"
+        name="object_selector_gemini"
+        output="screen"
+        launch-prefix="$(arg conda_env_prefix)/bin/python3">
+
+    <!-- 이 노드만 python310(콘다)로 실행 -->
+    <env name="PATH" value="$(arg conda_env_prefix)/bin:$(env PATH)" />
+    <!-- rospy/std_msgs/sensor_msgs를 python310에서 볼 수 있게 -->
+    <env name="PYTHONPATH" value="/opt/ros/noetic/lib/python3/dist-packages:$(env PYTHONPATH)" />
+    <!-- (옵션) protobuf 순수 파이썬 런타임 강제 -->
+    <env name="PROTOCOL_BUFFERS_PYTHON_IMPLEMENTATION" value="python" />
+    <!-- API Key 주입(비워두면 기존 환경변수 사용) -->
+    <env name="GEMINI_API_KEY" value="$(arg gemini_api_key)" />
+
+    <!-- 노드 파라미터 -->
+    <param name="image_topic" value="$(arg image_topic)" />
+    <param name="sg_topic"    value="$(arg sg_topic)" />
+    <param name="inference_mode" value="$(arg inference_mode)" />
+    <param name="model_name" value="$(arg model_name)" />
+    <param name="temperature" value="$(arg temperature)" />
+    <param name="max_output_tokens" value="$(arg max_output_tokens)" />
+  </node>
+</launch>

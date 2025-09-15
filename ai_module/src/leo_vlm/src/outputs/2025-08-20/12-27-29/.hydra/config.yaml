@@ -1,0 +1,292 @@
+data:
+  scan_family_base: ./Mask3D_data
+  rscan_base: TBD
+  alignment_base: TBD
+  instruction_base: TBD
+  max_obj_len: ${dataset_wrapper_args.max_obj_len}
+  num_points: 1024
+  img_size:
+  - 224
+  - 224
+  cap3d:
+    cap3d_root: ${data.alignment_base}/obj_caption
+    num_points: ${data.num_points}
+  obj_scene_cap:
+    rscan_base: ${data.rscan_base}
+    scannet_base: ${data.scan_family_base}
+    anno_dir: ${data.alignment_base}/obj_scene_caption
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+  scene_cap:
+    rscan_base: ${data.rscan_base}
+    anno_dir: ${data.alignment_base}/scene_caption
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+  scan2cap:
+    scannet_base: ${data.scan_family_base}
+    anno_dir: ${data.instruction_base}/scan2cap
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+    pc_type: gt
+    iou_thres: 0.5
+    corpus: ${data.instruction_base}/scan2cap/scanrefer_corpus.json
+  scanqa:
+    scannet_base: ${data.scan_family_base}
+    anno_dir: ${data.instruction_base}/scanqa
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+    pc_type: gt
+  sqa3d:
+    scannet_base: ${data.scan_family_base}
+    anno_dir: ${data.instruction_base}/sqa3d
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+    pc_type: gt
+  rscan_qa:
+    rscan_base: ${data.rscan_base}
+    anno_dir: ${data.instruction_base}/3rscanqa
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+  rscan_plan:
+    rscan_base: ${data.rscan_base}
+    anno_dir: ${data.instruction_base}/planning
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+  rscan_dialog:
+    rscan_base: ${data.rscan_base}
+    anno_dir: ${data.instruction_base}/dialogue
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+  mp3d_objnav:
+    base_dir: ${data.instruction_base}/mp3d_objnav
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+    max_traj_len: 500
+    history_length: 4
+    num_pred: 1
+    img_size: ${data.img_size}
+    scene_object_deterministic: true
+  cliport:
+    base_dir: ${data.instruction_base}/cliport
+    max_obj_len: ${data.max_obj_len}
+    num_points: ${data.num_points}
+    history_length: 4
+    img_size: ${data.img_size}
+task:
+  training:
+    lr: 3.0e-05
+    epochs: 10
+  leomix:
+    mode:
+    - train
+    dataset: LeoMix
+    mix:
+    - scan2cap
+    - scanqa
+    - sqa3d
+    - rscan_qa
+    - rscan_plan
+    - rscan_dialog
+    ratio: 1.0
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    train_dataloader_args: ${dataloader.train}
+    eval_dataloader_args: ${dataloader.eval}
+  cap3d:
+    mode:
+    - test
+    dataset: LeoCap3D
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: CaptionEvaluator
+  scene_cap:
+    mode:
+    - test
+    dataset: LeoSceneCap
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: CaptionEvaluator
+  scan2cap:
+    mode:
+    - val
+    - test
+    dataset: LeoScan2Cap
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: CaptionEvaluator
+  scanqa:
+    mode:
+    - val
+    - test
+    dataset: LeoScanQA
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: ScanQAEvaluator
+  sqa3d:
+    mode:
+    - val
+    - test
+    dataset: LeoSQA3D
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: SQA3DEvaluator
+  rscan_qa:
+    mode:
+    - val
+    - test
+    dataset: Leo3RScanQA
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: ScanQAEvaluator
+  rscan_plan:
+    mode:
+    - val
+    - test
+    dataset: Leo3RScanPlan
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: CaptionEvaluator
+  rscan_dialog:
+    mode:
+    - val
+    - test
+    dataset: Leo3RScanDialog
+    dataset_wrapper: LeoObjPadDatasetWrapper
+    dataset_wrapper_args: ${dataset_wrapper_args}
+    eval_dataloader_args: ${dataloader.eval}
+    evaluator: CaptionEvaluator
+llm:
+  name: Vicuna7B
+  cfg_path: lmsys/vicuna-7b-v1.1
+  truncation_side: right
+  max_context_len: 256
+  max_out_len: 256
+  lora:
+    flag: true
+    rank: 16
+    alpha: 16
+    target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+    dropout: 0.0
+vision2d:
+  name: GridFeatureExtractor2D
+  backbone_name: convnext_base
+  backbone_pretrain_dataset: laion2b
+  use_pretrain: true
+  pooling: avg
+  freeze: true
+vision3d:
+  backbone:
+    net:
+      _target_: model.pointnetpp.pointnetpp.PointNetPP
+      sa_n_points:
+      - 32
+      - 16
+      - null
+      sa_n_samples:
+      - 32
+      - 32
+      - null
+      sa_radii:
+      - 0.2
+      - 0.4
+      - null
+      sa_mlps:
+      - - 3
+        - 64
+        - 64
+        - 128
+      - - 128
+        - 128
+        - 128
+        - 256
+      - - 256
+        - 256
+        - 512
+        - 768
+    path: /configs/vision3d/backbone/pointnetpp_vil3dref.pth
+    freeze: true
+  name: OSE3D
+  hidden_dim: 256
+  use_spatial_attn: true
+  use_embodied_token: true
+  fourier_size: 84
+  spatial_encoder:
+    dim_loc: 6
+    num_attention_heads: 8
+    dim_feedforward: 2048
+    dropout: 0.1
+    activation: gelu
+    spatial_multihead: true
+    spatial_dim: 5
+    spatial_dist_norm: true
+    spatial_attn_fusion: cond
+    num_layers: 3
+    obj_loc_encoding: same_all
+    pairwise_rel_type: center
+name: LEO-1
+note: default
+rng_seed: 42
+num_gpu: 4
+mode: train
+naming_keywords:
+- note
+base_dir: ./
+exp_dir: ''
+pretrained_ckpt_path: results/sft_noact
+logger:
+  name: wandb
+  entity: TBD
+dataset_wrapper_args:
+  max_obj_len: 60
+dataloader:
+  train:
+    batchsize: 4
+    num_workers: 4
+  eval:
+    batchsize: 4
+    num_workers: 4
+trainer: LeoTrainer
+training:
+  epochs: ${task.training.epochs}
+  gradient_accumulation_steps: 5
+  grad_norm: 5.0
+  optim:
+    name: AdamW
+    args:
+      lr: ${task.training.lr}
+      betas:
+      - 0.9
+      - 0.999
+      weight_decay: 0.05
+  schedule:
+    name: linear_warmup_cosine_decay
+    args:
+      warmup_steps: 400
+eval:
+  num_batch_val: 50
+  val_interval: 1
+clip_txt_guidance:
+  flag: false
+  clip_out_dim: 1024
+probe:
+  sources:
+  - mask3d
+  scene_ids: []
+  situations: ''
+  instructions:
+  - Describe this scene.
+  save_obj_tokens: true

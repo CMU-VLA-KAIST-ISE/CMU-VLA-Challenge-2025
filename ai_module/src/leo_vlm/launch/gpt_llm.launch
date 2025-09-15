@@ -1,0 +1,9 @@
+<launch>
+  <node pkg="leo_vlm" type="gpt_llm.py" name="gpt_llm" output="screen">
+    <!-- 필요한 경우 모델/로깅/엣지 수 조정 -->
+    <env name="OPENAI_API_KEY" value="$(env OPENAI_API_KEY)"/>
+    <param name="model_name" value="gpt-5"/>
+    <param name="enable_logs" value="1"/>
+    <param name="edge_ths" value="10"/>
+  </node>
+</launch>

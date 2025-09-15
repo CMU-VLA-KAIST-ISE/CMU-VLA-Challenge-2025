@@ -1,0 +1,37 @@
+<launch>
+  <!-- 그래프 생성 노드 -->
+  <node name="graph_builder" pkg="dummy_vlm_py" type="graph_builder_node.py" output="screen">
+    <param name="grid_resolution" value="0.1"/>
+    <param name="grid_width" value="4000"/>
+    <param name="grid_height" value="4000"/>
+    <param name="inflation_radius" value="0.1"/>
+    <param name="grid_origin_x" value="-20.0"/>
+    <param name="grid_origin_y" value="-20.0"/>
+  </node>
+
+  <!-- 내비 파라미터(영구 적용) -->
+  <rosparam command="load">
+    pathFollower:
+      dirDiffThre: 0.5         # 허용 각도↑
+      lookAheadDis: 0.5
+      stopDisThre: 0.1
+      noRotAtStop: true        # 정지 시 회전 금지
+      noRotAtGoal: true        # 목표 부근 회전 금지
+      stopYawRateGain: 1.5     # 회전 게인↓
+      yawRateGain: 2.0
+    waypointConverter:
+      checkTravArea: true
+      waypointProjDis: 1.0
+      waypointXYRadius: 0.30
+      travDisThre: 0.25
+      searchDisThre: 4.0
+      adjDisThre: 7.0
+      extDis: 0.3
+    localPlanner:
+      checkObstacle: true
+  </rosparam>
+
+  <!-- 그래프 파일 생성 대기 후 미션 노드 실행 -->
+  <node name="mission_node" pkg="dummy_vlm_py" type="dummyVLM.py"
+        output="screen" launch-prefix="bash -c 'sleep 10; $0 $@'"/>
+</launch>

@@ -1,0 +1,10 @@
+<launch>
+    <!--
+    <node name="partial_scene_graph_generator" pkg="dummy_vlm_py" type="partial_sg_generator.py" output="screen">
+    -->
+    <node name="partial_scene_graph_generator" pkg="dummy_vlm_py" type="partial_sg_generator2.py" output="screen">
+    <param name="partial_scene_graph"       value="/partial_scene_graph_generator/partial_scene_graph"/>
+    <param name="current_pose"       value="/pose"/>
+    <param name="current_image"       value="/image"/>
+    </node>
+</launch>

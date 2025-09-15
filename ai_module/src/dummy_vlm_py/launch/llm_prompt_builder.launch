@@ -1,0 +1,4 @@
+<launch>
+  <node name="llm_prompt_builder" pkg="dummy_vlm_py" type="llm_prompt_builder.py" output="screen">
+  </node>
+</launch> 

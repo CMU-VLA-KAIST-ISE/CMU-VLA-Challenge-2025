@@ -1,0 +1,16 @@
+<launch>
+    <node pkg="image_transport" type="republish" name="republish_color"
+        args="compressed in:=/camera/image raw out:=/camera/image_raw" output="screen" />
+    
+    <node pkg="planning_node" type="grid_node.py" name="grid_node" output="screen">
+        <param name="use_sim_time" value="false"/>
+    </node>
+
+    <node pkg="planning_node" type="tsp_node.py" name="tsp_node" output="screen">
+        <param name="use_sim_time" value="false"/>
+    </node>
+    
+    <node pkg="planning_node" type="explore_node.py" name="exploration_node" output="screen">
+        <param name="use_sim_time" value="false"/>
+    </node>
+</launch>   

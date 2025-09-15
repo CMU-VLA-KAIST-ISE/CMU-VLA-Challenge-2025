@@ -1,15 +1,19 @@
 services:
   ubuntu20_ros_system:
     runtime: nvidia
-    build:
-      context: .
-      dockerfile: Dockerfile_system
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile_system
+    image: wonhyeok316/cmu-vla-challenge:ubuntu20_ros_system
     container_name: ubuntu20_ros_system
     network_mode: host
     privileged: true
     stdin_open: true
     tty: true
     working_dir: /home/$USER/CMU-VLA-Challenge
+    devices:
+      - /dev/dxg
+    # user: "${UID}:${GID}"
     # Enabling Nvidia GPUs
     deploy:
       resources:
@@ -22,26 +26,31 @@ services:
     environment:
       - "DISPLAY"
       - "QT_X11_NO_MITSHM=1"
-      - XAUTHORITY=/tmp/.docker.xauth
-    # This mounts the host directories into the container 
+      - "XAUTHORITY=/tmp/.docker.xauth"
+      - "LD_LIBRARY_PATH=/usr/lib/wsl/lib"
+    # This mounts the host directories into the container
     volumes:
       # This mounts the X11 socket into the container so that GUIs can be displayed
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /etc/localtime:/etc/localtime:ro
       - /dev/input:/dev/input
       - /dev/bus/usb:/dev/bus/usb:rw
-      - /home/$USER:/home/$USER:rw
-
+      - /home/$USER/CMU-VLA-Challenge:/home/$USER/CMU-VLA-Challenge:rw
+      - /data1:/data1
   ubuntu20_ros:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    #build:
+    #  context: .
+    #  dockerfile: Dockerfile
+    image: wonhyeok316/cmu-vla-challenge:ubuntu20_ros
     container_name: ubuntu20_ros
     network_mode: host
     privileged: true
     stdin_open: true
     tty: true
     working_dir: /home/$USER/CMU-VLA-Challenge
+    devices:
+      - /dev/dxg
+    # user: "${UID}:${GID}"
     # Enabling Nvidia GPUs
     deploy:
       resources:
@@ -54,12 +63,14 @@ services:
     environment:
       - "DISPLAY"
       - "QT_X11_NO_MITSHM=1"
-      - XAUTHORITY=/tmp/.docker.xauth
-    # This mounts the host directories into the container 
+      - "XAUTHORITY=/tmp/.docker.xauth"
+      - "LD_LIBRARY_PATH=/usr/lib/wsl/lib"
+    # This mounts the host directories into the container
     volumes:
       # This mounts the X11 socket into the container so that GUIs can be displayed
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - "/usr/lib/wsl:/usr/lib/wsl:ro"
       - /etc/localtime:/etc/localtime:ro
       - /dev/input:/dev/input
       - /dev/bus/usb:/dev/bus/usb:rw
-      - /home/$USER:/home/$USER:rw
+      - /home/$USER/CMU-VLA-Challenge:/home/$USER/CMU-VLA-Challenge:rw
