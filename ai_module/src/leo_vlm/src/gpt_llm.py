@@ -101,29 +101,29 @@ class GPT5Node:
         text = (msg.data or "").strip()
         if not text:
             return
-        try:
-            rospy.loginfo(f"[LLM] Prompt Text\n{text}")
-            payload = self._build_prompt(text, with_image=False)
-            resp = self.client.responses.create(model=self.model, input=payload)
-            out = getattr(resp, "output_text", None) or ""
-            if not out:
-                try:
-                    out = resp.output[0].content[0].text
-                    # print(out)
-                except Exception:
-                    out = ""
-            if not out:
-                out = "[LLM returned empty response]"
-            self.pub.publish(String(out))
-            rospy.loginfo("LLM OK (%d chars)", len(out))
-            # rospy.loginfo("LLM Input: %s", text)
-            # rospy.loginfo("LLM Output: %s", out)
-        except Exception as e:
-            err = f"[LLM error in gpt_llm.py] {e}"
-            rospy.logerr(err)
-            self.pub.publish(String(err))
-        finally:
-            pass
+        flag = 1
+        while(flag):
+            try:
+                rospy.loginfo(f"[LLM] Prompt Text\n{text}")
+                payload = self._build_prompt(text, with_image=False)
+                resp = self.client.responses.create(model=self.model, input=payload)
+                out = getattr(resp, "output_text", None) or ""
+                if not out:
+                    try:
+                        out = resp.output[0].content[0].text
+                        # print(out)
+                    except Exception:
+                        out = ""
+                if not out:
+                    out = "[LLM returned empty response]"
+                self.pub.publish(String(out))
+                rospy.loginfo("LLM OK (%d chars)", len(out))
+                # rospy.loginfo("LLM Input: %s", text)
+                # rospy.loginfo("LLM Output: %s", out)
+                flag = 0
+            except Exception as e:
+                err = f"[LLM error in gpt_llm.py] {e}"
+                rospy.logerr(err)
     # def cb_image(self, msg: Image):
     #     """원래 코드들 ... [image_scenegraph, rel_score 삭제에 따른 주석 처리]"""
     #     pass
