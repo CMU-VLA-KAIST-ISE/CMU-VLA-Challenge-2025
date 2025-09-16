@@ -13,6 +13,11 @@ echo "Setting executable permissions for Python scripts..."
 find . -name "*.py" -type f -exec chmod +x {} \;
 find . -name "*.cpp" -type f -exec chmod +x {} \;
 find . -name "*.launch" -type f -exec chmod +x {} \;
+
+REL_DIR="tmp/rel"
+echo "Cleaning ${REL_DIR}..."
+mkdir -p "${REL_DIR}"
+find "$REL_DIR" -mindepth 1 -maxdepth 1 -exec rm -rf -- {} +
 sleep 3
 roslaunch interaction_manager interaction_manager.launch
 wait
