@@ -13,7 +13,6 @@ services:
     working_dir: /home/$USER/CMU-VLA-Challenge-2025
     devices:
       - /dev/dxg
-    # user: "${UID}:${GID}"
     # Enabling Nvidia GPUs
     deploy:
       resources:
@@ -50,7 +49,6 @@ services:
     working_dir: /home/$USER/CMU-VLA-Challenge-2025
     devices:
       - /dev/dxg
-    # user: "${UID}:${GID}"
     # Enabling Nvidia GPUs
     deploy:
       resources:
