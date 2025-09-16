@@ -67,7 +67,7 @@ cd CMU-VLA-Challenge-2025/docker/
 ```
 Add a new environment variable for display:
 ```
-export DISPLAY=[YOUR_IP_ADDRESS]
+export DISPLAY=[YOUR_IP_ADDRESS]:0
 ```
 You can find your IP address by running 
 ```
@@ -99,7 +99,7 @@ Access the first container:
 ```
 docker exec -it ubuntu20_ros_system bash
 ```
-Move to `/system/unity`, and build:
+Move to `system/unity`, and build:
 ```
 cd system/unity/
 catkin_make
