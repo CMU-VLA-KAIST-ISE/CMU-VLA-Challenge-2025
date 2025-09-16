@@ -105,6 +105,11 @@ _※ If Unity Simulator doesn't show up, try adding execution permission to the 
 ```
 chmod +x ./system/unity/src/vehicle_simulator/mesh/unity/environment/Model.x86_64
 ```
+_※ Our mode requires at least 15fps. If your simulator shows a low rate, close the container and rearrange Dockers by: _
+```
+docker compose -f compose_gpu.yml up -d --no-deps --force-recreate ubuntu20_ros ubuntu20_ros_system
+```
+
 #### 2) `ubuntu20_ros` container
 Open a new terminal, and access the second container:
 ```
