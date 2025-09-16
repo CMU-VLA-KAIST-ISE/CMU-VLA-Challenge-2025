@@ -75,9 +75,17 @@ ipconfig
 ```
 in your local terminal. 
 
-Use the `compose_gpu.yml` file to pull Docker images:
+Pull Docker images by Docker Compose: 
+
+⚠️ **Caution**: There are two different compose files. 
+
+* `compose_gpu.yml`: Fork of the organizers' original compose file. Only the images are changed to provide our images. **Use this on Linux servers with GPUs.** 
+* `compose_gpu_wsl.yml`: Variant tuned for WSL2 (Windows) to enable GPU. **Use this for local development in WSL environment** 
+
+Please choose the accurate compose file for your computer.
 ```
-docker compose -f compose_gpu.yml up -d 
+docker compose -f compose_gpu.yml up -d
+docker compose -f compose_gpu_wsl.yml up -d
 ```
 
 ### Simulator
