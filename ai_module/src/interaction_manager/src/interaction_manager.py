@@ -56,13 +56,15 @@ class InteractionManager:
                 print("Error occurred. Please try again.")
     
     def cb_llm_response(self,msg: String):
-        rospy.loginfo(self.published_qt)
+        self.type_question.unregister()
         if not self.published_qt:
             rospy.loginfo("[interaction_manager] llm response : %s",msg)
             type=int(msg.data)
             if type in (1,2):
                 self.question_type_pub.publish(Int32(data=type))
+                
                 self.published_qt=True
+
                 self.shutdown.publish(Bool(data=True))
             elif type==3:
                 self.question_type_pub.publish(data=type)

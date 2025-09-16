@@ -143,6 +143,7 @@ class LLMPromptBuilder:
 
         if self.qtype1_step==3:
             self.numerical_output.publish(Int32(data=msg.data))
+            rospy.loginfo("[llm_prompt_builder] published /numerical_response")
             try:
                 rel_dir = rospy.get_param("~rel_dir", "/tmp/rel")
                 if os.path.isdir(rel_dir):
