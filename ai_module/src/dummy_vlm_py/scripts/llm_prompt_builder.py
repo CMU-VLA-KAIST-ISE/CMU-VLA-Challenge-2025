@@ -143,6 +143,7 @@ class LLMPromptBuilder:
 
         if self.qtype1_step==3:
             s = (msg.data or "").strip()
+            s = int(s)
             self.numerical_output.publish(Int32(s))
             rospy.loginfo("[llm_prompt_builder] published /numerical_response")
             try:
