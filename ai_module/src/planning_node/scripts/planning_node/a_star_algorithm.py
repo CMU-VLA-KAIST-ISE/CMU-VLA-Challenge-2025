@@ -170,8 +170,8 @@ class A_star():
             return True
         
         distance = np.linalg.norm(current_pos[:2] - destination[:2])
-        if current_time - self.last_route_update > distance * 12: # 거리에 따른 예상 시간보다 초과했을 때
-            if current_time - self.last_route_update > distance * 20 or self.distance_okay(destination, multiplier=1.15, arrive=True): # 적당히 가깝거나 너무 오래 걸리면 도착으로 침
+        if current_time - self.last_route_update > distance * 5: # 거리에 따른 예상 시간보다 초과했을 때
+            if current_time - self.last_route_update > distance * 10 or self.distance_okay(destination, multiplier=1.15, arrive=True): # 적당히 가깝거나 너무 오래 걸리면 도착으로 침
                 self._reset_route()
                 return True
             else:
