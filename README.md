@@ -129,6 +129,12 @@ Finally, move to the `CMU-VLA-Challenge-2025`, run the shell script below and en
 ./launch_module.sh
 ```
 
+_※ If the LLM is not working and you're using the Linux system, please try `dos2unix` in your `.env` file_
+```
+dos2unix .env
+```
+
 
 ## Acknowledgements
 Thank you to [AlphaZ](https://alpha-z.ai/) for sponsoring the challenge for 2025!
+For any kind of issues and questions, please feel free to contact us.
