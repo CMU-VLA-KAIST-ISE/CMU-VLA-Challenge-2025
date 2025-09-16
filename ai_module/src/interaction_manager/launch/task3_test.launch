@@ -1,7 +1,0 @@
-<launch>
-  <node name="partial_scene_graph_generator" pkg="dummy_vlm_py" type="partial_sg_generator.py" output="screen">
-  </node>
-  <include file="$(find leo_vlm)/launch/gpt_llm.launch"/>
-  <include file="$(find leo_vlm)/launch/gpt_llm_4o.launch"/>
-  <include file="$(find planning_node)/launch/planning_node.launch"/>
-</launch>

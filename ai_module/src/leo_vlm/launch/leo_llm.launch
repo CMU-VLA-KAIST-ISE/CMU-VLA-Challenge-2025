@@ -1,6 +1,0 @@
-<launch>
-  <node pkg="leo_vlm" type="leo_llm.py" name="leo_llm" output="screen"
-        launch-prefix="/opt/conda/envs/leo/bin/python" />
-  <!-- <node pkg="leo_vlm" type="planner_partialSG.py" name="planner_partialSG" output="screen"
-        launch-prefix="/opt/conda/envs/leo/bin/python" /> -->
-</launch>

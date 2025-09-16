@@ -12,8 +12,6 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package()
 
 catkin_install_python(PROGRAMS
-  src/leo_llm.py
-  src/planner_partialSG.py
   src/gpt_llm.py
   src/gpt_llm_4o.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}

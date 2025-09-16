@@ -1,4 +1,0 @@
-<launch>
-  <node name="planner_task3" pkg="interaction_manager" type="planner_task3_object.py" output="screen">
-  </node>
-</launch> 

@@ -16,8 +16,6 @@ catkin_package()
 # - fusion_pipeline_node.py 는 scripts/ 에 있다고 가정
 # - object_selector_gemini.py 는 기존 위치(src/) 유지해도 됨
 catkin_install_python(PROGRAMS
-  src/fusion_pipeline_node.py
-  src/object_selector_gemini.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 
