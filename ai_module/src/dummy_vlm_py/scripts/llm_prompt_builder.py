@@ -142,7 +142,8 @@ class LLMPromptBuilder:
         # If any response arrives while waiting, just forward shutdown to close GPT-only launch.
 
         if self.qtype1_step==3:
-            self.numerical_output.publish(Int32(data=msg.data))
+            s = (msg.data or "").strip()
+            self.numerical_output.publish(Int32(s))
             rospy.loginfo("[llm_prompt_builder] published /numerical_response")
             try:
                 rel_dir = rospy.get_param("~rel_dir", "/tmp/rel")
