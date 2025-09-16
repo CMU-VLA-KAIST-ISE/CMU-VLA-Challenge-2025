@@ -96,7 +96,7 @@ Move to `/system/unity`, and build:
 cd system/unity/
 catkin_make
 ```
-Inside the container, run:
+Go back to the `CMU-VLA-Challenge-2025`, and run:
 ```
 ./launch_system.sh
 ```
