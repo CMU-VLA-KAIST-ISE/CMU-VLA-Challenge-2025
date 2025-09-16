@@ -105,7 +105,7 @@ _※ If Unity Simulator doesn't show up, try adding execution permission to the 
 ```
 chmod +x ./system/unity/src/vehicle_simulator/mesh/unity/environment/Model.x86_64
 ```
-_※ Our mode requires at least 15fps. If your simulator shows a low rate, close the container and rearrange Dockers by: _
+_※ Our mode requires at least 15fps. If your simulator shows a low rate, close the container and rearrange Dockers by:_
 ```
 docker compose -f compose_gpu.yml up -d --no-deps --force-recreate ubuntu20_ros ubuntu20_ros_system
 ```
@@ -129,6 +129,12 @@ Finally, move to the `CMU-VLA-Challenge-2025`, run the shell script below and en
 ./launch_module.sh
 ```
 
+_※ If the LLM is not working and you're using the Linux system, please try `dos2unix` in your `.env` file_
+```
+dos2unix .env
+```
+
 
 ## Acknowledgements
-Thank you to [AlphaZ](https://alpha-z.ai/) for sponsoring the challenge for 2025!
+Thank you to [AlphaZ](https://alpha-z.ai/) for sponsoring the challenge for 2025! \
+For any kind of issues and questions, please feel free to contact us.
